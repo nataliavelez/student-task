@@ -4,7 +4,7 @@
  */
  var worker_id,student_id,hints,problems,urlParams;
  var completed=false;
- const num_trials = 40; // Equal to the total count of problems each student sees.
+ const num_trials = 2; // Equal to the total count of problems each student sees.
  const hints_filepath = "scripts/new_sample_teacher.json";
  const problems_filepath = "scripts/problems.json"; 
  const uniform_betting_priors = [25, 25, 25, 25]; 
