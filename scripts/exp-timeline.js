@@ -30,7 +30,7 @@ $(document).ready(function() {
     for (let i = 0; i < hypothesis_order.length; ++i) {
       const slider_id = "#" + hypothesis_order[i] + 
           "-instructions-betting-slider-" + instruction_num;
-      new Slider(slider_id, {tooltip: 'always'});
+      new Slider(slider_id, {tooltip: 'hide'});
     };
   };
 
@@ -133,9 +133,9 @@ $(document).ready(function() {
       pages: [
         sprintf($('#instructions-chips-1').html(),
           'How to play',
-          'On each trial, we’ll give you 100 "chips”, and you’ll place bets by \
+          "On each trial, we'll give you 100 'chips', and you'll place bets by \
           distributing those chips among the four options using the sliders \
-          below.',
+          below. The higher the value on the slider, the more chips we'll place on that option",
           'At the end of the game, you’ll win a bonus based on how many chips \
           you bet on the right answer; <strong> the more chips you place on the \
           right answer, the higher your bonus will be. </strong>'
@@ -171,10 +171,10 @@ $(document).ready(function() {
       pages: [
         sprintf($('#instructions-chips-3').html(),
           'How to play',
-          'However, if you think an option is <em> definitely wrong </em>, \
-          bet 0 on that option;',
-          'If you think an option is <em> definitely right </em>, you should \
-          go “all in” and bet 100.'
+          'If you think an option is <em>definitely wrong </em>, \
+          move the slider all the way to the left;',
+          'If you think an option is <em>definitely right </em>, you should \
+          go “all in” and move the slider all the way to the right.'
         )
       ],
       show_clickable_nav: true,
@@ -189,15 +189,10 @@ $(document).ready(function() {
       pages: [
         sprintf($('#instructions-chips-4').html(),
           'How to play',
-          'Your bets must sum to 100 before you move on. Your current sum will \
-          display in the total beneath the sliders. If your bets do not sum to \
-          100, the total will display red and you will be unable to advance to \
-          the next trial.',
           'At the end of the game, <strong> we will calculate your bonus based \
           on the bets that you placed on 15 random trials. </strong> Please \
           answer the questions carefully and bet based on how likely each \
-          option is to be right.',
-          'Total = 100'
+          option is to be right.'
         )
       ],
       show_clickable_nav: true,
@@ -205,8 +200,6 @@ $(document).ready(function() {
       button_label_next: 'Next',
       on_load: function() {
         init_instruction_betting_sliders(4);
-        $('#jspsych-display').find('.total-bets-tally-container').css(
-          'background-color', '#6cbd6c');
       }
     }
   ];
@@ -393,6 +386,7 @@ $(document).ready(function() {
   // The entire experiment timeline. 
   const timeline = [preload, consent, fullscreen, introduction].concat(
       student_timeline).concat([survey]);
+  // const timeline = student_timeline;
 
   /// Initialize the whole experiment and display the debrief page afterwords.
   jsPsych.init({

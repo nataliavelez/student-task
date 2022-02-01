@@ -54,30 +54,12 @@ jsPsych.plugins["practice-bet"] = (function() {
          */ 
         function handle_betting(slider_indx, new_bet) {
 
-            bets[slider_indx] = new_bet;
-
-            const betting_total = get_bet_sums();
             const button = $(display_element).find('button');
-
-            $(display_element).find('.total-bets-tally').html("Total: " + 
-              betting_total);
-            
-            if (jsPsych.pluginAPI.compareKeys(betting_total, 100)) {
-
-                $(display_element).find('.total-bets-tally-container').css(
-                    'background-color', '#6cbd6c');
-
-                button.prop('disabled', false); 
-                button.unbind('click'); 
-                button.one('click', function(){ 
-                    jsPsych.finishTrial();
-                });
-            } else { 
-                $(display_element).find('.total-bets-tally-container').css(
-                    'background-color', '#e04848');
-                button.prop('disabled', true); 
-                button.unbind('click'); 
-            };
+            button.prop('disabled', false); 
+            button.unbind('click'); 
+            button.one('click', function(){ 
+                jsPsych.finishTrial();
+            });
         };
 
         let content = $('#templates #practice-problem').html();
@@ -97,7 +79,7 @@ jsPsych.plugins["practice-bet"] = (function() {
         for (let indx = 0; indx < hypothesis_order.length; indx++) {
             const slider_id = "#" + hypothesis_order[indx] + 
                     "-practice-betting-slider";
-            new Slider(slider_id,{tooltip: 'always'}).on('change', 
+            new Slider(slider_id,{tooltip: 'hide'}).on('change', 
                 function(event) {
                     handle_betting(indx, event.newValue);
                 }

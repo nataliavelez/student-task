@@ -19,7 +19,7 @@ $(document).ready(function() {
     // Load hints
     if (urlParams.hasOwnProperty('debug')) {
         var hint_request = $.getJSON(hints_filepath, function(data){
-            console.log('WARNING: USING DEBUG TIMELINE')
+            console.log('WARNING: USING DEBUG TIMELINE');
             student_id = 'debug';
             hints = data;
         });

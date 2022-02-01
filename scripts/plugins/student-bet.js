@@ -104,34 +104,20 @@ jsPsych.plugins["student-bet"] = (function() {
             const betting_total = get_bet_sums();
             const button = $(display_element).find('button');
 
-            $(display_element).find('.total-bets-tally').html("Total: " + 
-              betting_total);
-            
-            if (jsPsych.pluginAPI.compareKeys(betting_total, 100)) {
-
-                $(display_element).find('.total-bets-tally-container').css(
-                    'background-color', '#6cbd6c');
-
-                button.prop('disabled', false); 
-                button.unbind('click'); 
-                button.one('click', function(e){ 
-                    e.preventDefault();
-                    
-                    const trial_data = {
-                      teacher: hints[trial.num_trial]["teacher"],
-                      problem: problem,
-                      num_trial: trial.num_trial,
-                      num_hint: trial.num_hint,
-                      bets: bets,
-                    };
-                    jsPsych.finishTrial(trial_data);
-                });
-            } else { 
-                $(display_element).find('.total-bets-tally-container').css(
-                    'background-color', '#e04848');
-                button.prop('disabled', true); 
-                button.unbind('click'); 
-            };
+            button.prop('disabled', false); 
+            button.unbind('click'); 
+            button.one('click', function(e){ 
+                e.preventDefault();
+                
+                const trial_data = {
+                    teacher: hints[trial.num_trial]["teacher"],
+                    problem: problem,
+                    num_trial: trial.num_trial,
+                    num_hint: trial.num_hint,
+                    bets: bets,
+                };
+                jsPsych.finishTrial(trial_data);
+            });
         };
 
         let content = $('#templates #student-betting').html();
@@ -152,11 +138,10 @@ jsPsych.plugins["student-bet"] = (function() {
   
         let bet_prompt = 'What is the probability that each of these options \
           is the right answer? (Note: Please place your bets by moving the\
-          sliders. Your total bets must sum to 100.)';
+          sliders.)';
         let total_text = 'Total: ' + get_bet_sums();
 
-        content = sprintf(content, trial.num_trial + 1 , num_trials, hint_prompt,   
-                bet_prompt, total_text, button_text);
+        content = sprintf(content, trial.num_trial + 1 , num_trials, hint_prompt, bet_prompt);
         $(display_element).html(content);
 
         // Draw the teacher's hint by iterating over rows and columns of the 
@@ -191,10 +176,11 @@ jsPsych.plugins["student-bet"] = (function() {
         // the appropriate values (uniform betting priors or participant's 
         // previously bets) and link each slider to an event listener that 
         // handles any new bets. 
+        
         for (let indx = 0; indx < hypothesis_order.length; indx++) {
             new Slider("#" + hypothesis_order[indx] + "-betting-slider",{
-                tooltip: 'always',
-                value: bets[indx]
+                value: bets[indx],
+                tooltip: "hide"
             }).on('change', function (event) {
                 handle_betting(indx, event.newValue);
             });
